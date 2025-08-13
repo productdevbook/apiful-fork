@@ -22,8 +22,12 @@ const config: UserConfig | UserConfigFn = defineConfig({
 
 export default config
 
-function inferExports(exports: Record<string, unknown>): Set<string> {
+function inferExports(exports: Record<string, unknown> | undefined): Set<string> {
   const entries = new Set<string>()
+
+  if (!exports || typeof exports !== 'object') {
+    return entries
+  }
 
   for (const value of Object.values(exports)) {
     if (typeof value === 'string') {
